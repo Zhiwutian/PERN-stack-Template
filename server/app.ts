@@ -1,6 +1,6 @@
 import express from 'express';
 import apiRouter from './routes/api.js';
-import { errorMiddleware } from './lib/index.js';
+import { errorMiddleware, httpLogger } from './lib/index.js';
 
 export function createApp(): express.Express {
   const app = express();
@@ -12,6 +12,7 @@ export function createApp(): express.Express {
   app.use(express.static(reactStaticDir));
   // Static directory for file uploads server/public/.
   app.use(express.static(uploadsStaticDir));
+  app.use(httpLogger);
   app.use(express.json());
 
   app.use('/api', apiRouter);

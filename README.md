@@ -9,6 +9,8 @@ A full stack TypeScript template with React, Express, and PostgreSQL.
 - React 19 + Vite 7 (`client`)
 - Express 5 + PostgreSQL (`server`)
 - TypeScript, ESLint, Prettier, Husky, lint-staged
+- Vitest + Testing Library + Supertest for testing
+- Zod env validation + Pino structured logging (`server`)
 
 ## Getting Started
 
@@ -30,6 +32,7 @@ A full stack TypeScript template with React, Express, and PostgreSQL.
 3. Run `Dev Containers: Rebuild and Reopen in Container`.
 
 This template bind-mounts your local folder to `/workspace`, so files persist across rebuilds.
+Outside devcontainers, this repo also includes `.nvmrc` and engine constraints in `package.json`.
 
 ### 3) Install and configure env
 
@@ -71,6 +74,9 @@ Open the app and confirm the client can hit `/api/hello`.
 - `pnpm run dev` - runs both client and server watchers
 - `pnpm run lint` - lints client and server
 - `pnpm run tsc` - type checks client and server
+- `pnpm run test` - runs frontend and backend unit/integration tests
+- `pnpm run test:coverage` - runs test coverage reports for client and server
+- `pnpm run test:changed` - runs related tests for changed files (fast local PR feedback)
 - `pnpm run build` - builds the client for production
 - `pnpm run start` - starts production server
 - `pnpm run db:import` - resets/imports schema and seed data
@@ -83,6 +89,7 @@ Open the app and confirm the client can hit `/api/hello`.
   - `docs-policy` (requires docs updates when app/config files change)
   - `lint`
   - `tsc`
+  - `test`
   - `build`
 - Deployment runs from `/.github/workflows/main.yml` on pushes to `pub`.
 

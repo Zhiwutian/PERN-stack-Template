@@ -1,4 +1,5 @@
 import { getDbPool } from '../db/pool.js';
+import { logger } from '../lib/logger.js';
 
 export type HealthReport = {
   api: 'ok';
@@ -26,7 +27,7 @@ export async function readHealthReport(): Promise<HealthReport> {
       checkedAt,
     };
   } catch (err) {
-    console.error('Database health check failed', err);
+    logger.warn({ err }, 'Database health check failed');
     return {
       api: 'ok',
       database: 'unavailable',

@@ -45,9 +45,16 @@ Example server path in this template:
 ## Environment and Configuration
 
 - Devcontainer sets Node 22 and mounts project files to `/workspace`.
+- `.nvmrc` and `package.json` engines pin local runtime expectations.
 - Server env values are managed in `server/.env`.
 - `DATABASE_URL` controls DB connectivity.
 - `TOKEN_SECRET` is required for auth middleware.
+- Environment variables are validated at startup in `server/config/env.ts`.
+
+## Logging
+
+- Application logs use structured JSON logging via `pino`.
+- HTTP request logging is handled by `pino-http` middleware with request IDs (`x-request-id`).
 
 ## Build and Deploy Shape
 

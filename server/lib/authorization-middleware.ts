@@ -1,14 +1,14 @@
 import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
+import { env } from '../config/env.js';
 import { ClientError } from './client-error.js';
 
-const secret = process.env.TOKEN_SECRET ?? '';
-if (!secret) throw new Error('TOKEN_SECRET not found in env');
+const secret = env.TOKEN_SECRET;
 
 export function authMiddleware(
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ): void {
   // The token will be in the Authorization header with the format `Bearer ${token}`
   const token = req.get('authorization')?.split('Bearer ')[1];

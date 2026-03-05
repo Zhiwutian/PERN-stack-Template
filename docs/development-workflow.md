@@ -3,14 +3,18 @@
 ## Local Development Loop
 
 1. Pull latest changes.
-2. Run `corepack enable` once per machine/session if needed.
-3. Run `pnpm install` if dependencies changed.
-4. Run `pnpm run dev` for client + server watchers.
-5. Make incremental changes.
-6. Before commit, run:
+2. If not using the devcontainer, run `nvm use` (Node 22 from `.nvmrc`).
+3. Run `corepack enable` once per machine/session if needed.
+4. Run `pnpm install` if dependencies changed.
+5. Run `pnpm run dev` for client + server watchers.
+6. Make incremental changes.
+7. Before commit, run:
    - `pnpm run lint`
    - `pnpm run tsc`
+   - `pnpm run test`
    - `pnpm run build`
+8. Optionally run `pnpm run test:coverage` to inspect coverage trends.
+9. For quick feedback during active work, run `pnpm run test:changed`.
 
 ## Database Workflow
 
@@ -29,7 +33,8 @@ PRs trigger `/.github/workflows/ci.yml`:
 1. Install dependencies (`pnpm install --frozen-lockfile`)
 2. Lint (`pnpm run lint`)
 3. Typecheck (`pnpm run tsc`)
-4. Build (`pnpm run build`)
+4. Test (`pnpm run test`)
+5. Build (`pnpm run build`)
 
 This catches most integration issues before merge.
 

@@ -4,3 +4,6 @@ node_modules
 .vscode
 *.log
 .env
+coverage
+client/coverage
+server/coverage
