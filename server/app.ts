@@ -2,6 +2,10 @@ import express from 'express';
 import apiRouter from './routes/api.js';
 import { errorMiddleware, httpLogger } from './lib/index.js';
 
+/**
+ * Construct and configure the Express application instance.
+ * Keep server startup concerns in `server.ts`.
+ */
 export function createApp(): express.Express {
   const app = express();
 

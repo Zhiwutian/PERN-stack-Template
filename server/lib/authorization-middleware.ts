@@ -5,6 +5,7 @@ import { ClientError } from './client-error.js';
 
 const secret = env.TOKEN_SECRET;
 
+/** Validate bearer token and attach decoded user to request context. */
 export function authMiddleware(
   req: Request,
   res: Response,

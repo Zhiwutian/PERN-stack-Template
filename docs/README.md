@@ -48,3 +48,24 @@ To override the diff base ref used by the script:
 ```sh
 TEST_CHANGED_BASE=origin/main pnpm run test:changed
 ```
+
+## Comment Standards
+
+Use comments to improve maintainability for both humans and AI tools, not to restate obvious code.
+
+- Add JSDoc-style comments to:
+  - exported functions
+  - non-trivial internal helpers
+  - modules with setup/behavioral side effects
+- Keep JSDoc concise and practical:
+  - one sentence for purpose
+  - include important behavior or constraints
+  - mention notable return/throw behavior when not obvious
+- Add inline comments only for complex logic:
+  - fallback behavior
+  - non-obvious control flow
+  - performance/safety decisions
+- Avoid noisy comments:
+  - do not explain basic language syntax
+  - do not duplicate variable names line-by-line
+- If code changes alter behavior, update related comments in the same PR.

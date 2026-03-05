@@ -34,4 +34,11 @@ describe('api routes', () => {
     expect(res.body.database).toBe('not_configured');
     expect(typeof res.body.checkedAt).toBe('string');
   });
+
+  it('returns 503 from /api/todos when DATABASE_URL is missing', async () => {
+    delete process.env.DATABASE_URL;
+
+    const res = await request(app).get('/api/todos').expect(503);
+    expect(res.body.error).toContain('database is not configured');
+  });
 });

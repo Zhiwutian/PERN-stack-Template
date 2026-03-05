@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import { ClientError } from './client-error.js';
 import { logger } from './logger.js';
 
+/** Centralized Express error handler. */
 export function errorMiddleware(
   err: unknown,
   _req: Request,

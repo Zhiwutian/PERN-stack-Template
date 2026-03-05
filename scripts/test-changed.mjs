@@ -1,5 +1,8 @@
 import { spawnSync } from 'node:child_process';
 
+/**
+ * Execute a command and forward stdio.
+ */
 function run(command, args, options = {}) {
   const result = spawnSync(command, args, {
     stdio: 'inherit',
@@ -9,6 +12,9 @@ function run(command, args, options = {}) {
   return result.status ?? 1;
 }
 
+/**
+ * Execute a command and return stdout as string, or `null` on failure.
+ */
 function getOutput(command, args) {
   const result = spawnSync(command, args, {
     encoding: 'utf8',
@@ -25,6 +31,7 @@ let diffTarget = `${baseRef}...HEAD`;
 let changed = getOutput('git', ['diff', '--name-only', diffTarget]);
 
 if (changed === null) {
+  // Fallback for environments without `origin/main` (local-only branches).
   const fallbackBase = getOutput('git', ['rev-parse', 'HEAD~1']);
   if (!fallbackBase) {
     console.log('Unable to determine changed files. Running full test suite.');
@@ -59,6 +66,7 @@ const sharedTriggers = changedFiles.some((f) =>
 let exitCode = 0;
 
 if (sharedTriggers) {
+  // Dependency/config shifts can affect both workspaces; run full suite.
   console.log('Shared config/dependency changes detected. Running full test suite.');
   process.exit(run('pnpm', ['run', 'test']));
 }

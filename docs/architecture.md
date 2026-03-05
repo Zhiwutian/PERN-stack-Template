@@ -21,7 +21,7 @@ At runtime, the browser loads static assets from the server and calls API routes
   - Falls back to `index.html` for non-API routes to support SPA routing.
 - **PostgreSQL**
   - Stores relational data.
-  - Accessed through `pg` connection pool in the server process.
+  - Accessed through Drizzle ORM on top of the `pg` pool.
 
 ## Request Flow
 
@@ -32,9 +32,10 @@ At runtime, the browser loads static assets from the server and calls API routes
 5. Server returns JSON response.
 6. React updates UI state.
 
-Example server path in this template:
+Example server paths in this template:
 
-- `GET /api/health` -> `routes/api.ts` -> `controllers/health-controller.ts` -> `services/health-service.ts` -> `db/pool.ts`
+- `GET /api/health` -> `routes/api.ts` -> `controllers/health-controller.ts` -> `services/health-service.ts` -> `db/drizzle.ts`
+- `GET /api/todos` -> `routes/api.ts` -> `controllers/todo-controller.ts` -> `services/todo-service.ts` -> `db/drizzle.ts` -> `db/schema.ts`
 
 ## Error Handling
 

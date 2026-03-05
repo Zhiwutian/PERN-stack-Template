@@ -1,22 +1,22 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { getDbPool } from '../db/pool.js';
+import { getDrizzleDb } from '../db/drizzle.js';
 import { logger } from '../lib/logger.js';
 import { readHealthReport } from './health-service.js';
 
-vi.mock('../db/pool.js', () => ({
-  getDbPool: vi.fn(),
+vi.mock('../db/drizzle.js', () => ({
+  getDrizzleDb: vi.fn(),
 }));
 
 describe('readHealthReport', () => {
-  const getDbPoolMock = vi.mocked(getDbPool);
+  const getDrizzleDbMock = vi.mocked(getDrizzleDb);
 
   beforeEach(() => {
-    getDbPoolMock.mockReset();
+    getDrizzleDbMock.mockReset();
     vi.restoreAllMocks();
   });
 
   it('returns not_configured when database pool is unavailable', async () => {
-    getDbPoolMock.mockReturnValue(null);
+    getDrizzleDbMock.mockReturnValue(null);
 
     const report = await readHealthReport();
 
@@ -26,20 +26,20 @@ describe('readHealthReport', () => {
   });
 
   it('returns ok when the database query succeeds', async () => {
-    const query = vi.fn(async () => ({ rows: [{ ok: 1 }] }));
-    getDbPoolMock.mockReturnValue({ query } as never);
+    const execute = vi.fn(async () => ({ rows: [{ ok: 1 }] }));
+    getDrizzleDbMock.mockReturnValue({ execute } as never);
 
     const report = await readHealthReport();
 
-    expect(query).toHaveBeenCalledWith('select 1 as ok');
+    expect(execute).toHaveBeenCalled();
     expect(report.database).toBe('ok');
   });
 
   it('returns unavailable when the database query fails', async () => {
-    const query = vi.fn(async () => {
+    const execute = vi.fn(async () => {
       throw new Error('db down');
     });
-    getDbPoolMock.mockReturnValue({ query } as never);
+    getDrizzleDbMock.mockReturnValue({ execute } as never);
     const loggerWarnSpy = vi
       .spyOn(logger, 'warn')
       .mockImplementation(() => logger);

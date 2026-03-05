@@ -37,6 +37,9 @@ The format is inspired by Keep a Changelog and uses semantic-style version secti
 - Added runtime pinning with `.nvmrc` and `engines` in root `package.json`.
 - Added server environment validation module (`server/config/env.ts`) using `zod`.
 - Added structured logging via `pino` and request logging via `pino-http`.
+- Added Drizzle ORM + Drizzle Kit integration with schema/migration scaffolding.
+- Added example Drizzle-backed CRUD endpoints for todos (`/api/todos`).
+- Added idempotent database seed flow (`pnpm run db:seed`) and starter todo data.
 
 ### Changed
 

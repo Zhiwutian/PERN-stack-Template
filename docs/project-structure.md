@@ -44,19 +44,25 @@
 - `services/`
   - Business logic independent of Express request/response types.
 - `db/`
-  - Database access setup and query helpers.
+  - Database access setup, Drizzle schema, and query helpers.
+- `scripts/`
+  - Server-side utility scripts (for example, idempotent seed scripts).
+- `drizzle.config.ts`
+  - Drizzle Kit migration config for schema generation and migration output.
 - `lib/`
   - Shared backend utilities and middleware (errors, auth, request typing).
 - `public/`
   - Server-hosted static files (uploads or other direct-served assets).
 - Current example path:
-  - `GET /api/health` -> route -> controller -> service -> db pool
+  - `GET /api/health` -> route -> controller -> service -> Drizzle db client
+  - `GET /api/todos` -> route -> controller -> service -> Drizzle db client
 
 ## Data Layer (`database`)
 
 - `schema.sql` - canonical schema definition
 - `data.sql` - optional seed content
 - `import.sh` - deterministic database rebuild/import script
+- `migrations/` - Drizzle-generated migration SQL files
 
 ## Ownership Guidance
 

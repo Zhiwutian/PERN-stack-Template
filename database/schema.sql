@@ -5,3 +5,11 @@ set client_min_messages to warning;
 drop schema "public" cascade;
 
 create schema "public";
+
+create table "todos" (
+  "todoId" serial primary key,
+  "task" text not null,
+  "isCompleted" boolean not null default false,
+  "createdAt" timestamptz not null default now(),
+  "updatedAt" timestamptz not null default now()
+);

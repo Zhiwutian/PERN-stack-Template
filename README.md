@@ -61,6 +61,13 @@ Then run:
 pnpm run db:import
 ```
 
+If you are using Drizzle migrations instead of SQL import:
+
+```sh
+pnpm run db:migrate
+pnpm run db:seed
+```
+
 ### 5) Start local development
 
 ```sh
@@ -68,6 +75,15 @@ pnpm run dev
 ```
 
 Open the app and confirm the client can hit `/api/hello`.
+
+## Example API Endpoints
+
+- `GET /api/hello` - basic connectivity check
+- `GET /api/health` - API + database health report
+- `GET /api/todos` - list todos (Drizzle-backed)
+- `POST /api/todos` - create todo with `{ "task": "..." }`
+- `PATCH /api/todos/:todoId` - update completion with `{ "isCompleted": true|false }`
+- `DELETE /api/todos/:todoId` - remove todo
 
 ## Scripts
 
@@ -80,6 +96,10 @@ Open the app and confirm the client can hit `/api/hello`.
 - `pnpm run build` - builds the client for production
 - `pnpm run start` - starts production server
 - `pnpm run db:import` - resets/imports schema and seed data
+- `pnpm run db:generate` - generates Drizzle SQL migrations from schema
+- `pnpm run db:migrate` - applies Drizzle migrations
+- `pnpm run db:seed` - inserts starter data if tables are empty
+- `pnpm run db:studio` - opens Drizzle Studio
 - `pnpm run psql` - opens `psql` using `DATABASE_URL`
 - `pnpm run deploy` - pushes `main` to `pub` for deployment workflow
 

@@ -10,12 +10,18 @@ const envSchema = z.object({
   TOKEN_SECRET: z.string().min(1, 'TOKEN_SECRET is required'),
 });
 
-const parsed = envSchema.safeParse(process.env);
-if (!parsed.success) {
-  const formatted = parsed.error.issues
+/** Format zod issues into a single startup error string. */
+function formatEnvIssues(issues: z.ZodIssue[]): string {
+  return issues
     .map((issue) => `${issue.path.join('.') || 'env'}: ${issue.message}`)
     .join('; ');
+}
+
+const parsed = envSchema.safeParse(process.env);
+if (!parsed.success) {
+  const formatted = formatEnvIssues(parsed.error.issues);
   throw new Error(`Invalid environment configuration: ${formatted}`);
 }
 
+/** Validated, typed runtime environment values. */
 export const env = parsed.data;

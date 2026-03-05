@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { readHealthReport } from '../services/health-service.js';
 
+/** Handle `GET /api/health`. */
 export async function readHealth(
   _req: Request,
   res: Response,

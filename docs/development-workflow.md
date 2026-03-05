@@ -19,6 +19,10 @@
 ## Database Workflow
 
 - Modify `database/schema.sql` for schema changes.
+- Define/update typed Drizzle schema in `server/db/schema.ts`.
+- Generate migrations with `pnpm run db:generate`.
+- Apply migrations with `pnpm run db:migrate`.
+- Seed starter data with `pnpm run db:seed` (idempotent: skips when table has rows).
 - Optionally add/update sample data in `database/data.sql`.
 - Rebuild local DB state with:
 

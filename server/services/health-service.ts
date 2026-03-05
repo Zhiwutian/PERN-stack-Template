@@ -1,4 +1,5 @@
-import { getDbPool } from '../db/pool.js';
+import { sql } from 'drizzle-orm';
+import { getDrizzleDb } from '../db/drizzle.js';
 import { logger } from '../lib/logger.js';
 
 export type HealthReport = {
@@ -7,11 +8,16 @@ export type HealthReport = {
   checkedAt: string;
 };
 
+/**
+ * Build an API/database health report.
+ * - `not_configured` when DATABASE_URL is absent
+ * - `unavailable` when connectivity/query fails
+ */
 export async function readHealthReport(): Promise<HealthReport> {
   const checkedAt = new Date().toISOString();
-  const pool = getDbPool();
+  const db = getDrizzleDb();
 
-  if (!pool) {
+  if (!db) {
     return {
       api: 'ok',
       database: 'not_configured',
@@ -20,7 +26,7 @@ export async function readHealthReport(): Promise<HealthReport> {
   }
 
   try {
-    await pool.query('select 1 as ok');
+    await db.execute(sql`select 1 as ok`);
     return {
       api: 'ok',
       database: 'ok',
