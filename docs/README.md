@@ -21,3 +21,16 @@ This folder contains maintainable project documentation for application structur
 - Keep this folder implementation-aware (actual paths, real scripts).
 - Prefer concise docs that explain "why" and "where", not line-by-line code.
 - If a script or workflow changes, update `README.md` and this folder together.
+
+## How To Update The Changelog
+
+`CHANGELOG.md` lives at the project root and should be updated in every PR that changes behavior, architecture, tooling, or workflow.
+
+- Add new entries under `## [Unreleased]` in the correct subsection:
+  - `Added`
+  - `Changed`
+  - `Fixed`
+  - `Removed`
+- Write concise, user-facing summaries of impact (what changed and why it matters).
+- Group related file changes into one bullet when possible.
+- When cutting a release, move `Unreleased` entries into a dated/versioned section and reset `Unreleased`.
