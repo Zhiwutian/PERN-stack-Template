@@ -34,16 +34,23 @@
 ## Backend (`server`)
 
 - `server.ts`
-  - Express app setup, middleware wiring, route registration, and static hosting.
-  - As complexity grows, keep this file thin by delegating routes/services.
+  - Process bootstrap and HTTP server startup.
+- `app.ts`
+  - Express app composition (middleware, route registration, static hosting, error handling).
+- `routes/`
+  - Express route modules grouped by API surface.
+- `controllers/`
+  - Route handlers that format request/response behavior.
+- `services/`
+  - Business logic independent of Express request/response types.
+- `db/`
+  - Database access setup and query helpers.
 - `lib/`
   - Shared backend utilities and middleware (errors, auth, request typing).
 - `public/`
   - Server-hosted static files (uploads or other direct-served assets).
-- Recommended growth pattern:
-  - `routes/` for endpoint modules
-  - `services/` for business logic
-  - `db/` for SQL access helpers and query modules
+- Current example path:
+  - `GET /api/health` -> route -> controller -> service -> db pool
 
 ## Data Layer (`database`)
 

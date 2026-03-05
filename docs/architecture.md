@@ -16,6 +16,7 @@ At runtime, the browser loads static assets from the server and calls API routes
   - Calls backend endpoints (for example `/api/hello`).
 - **Express Server**
   - Serves API routes.
+  - Organizes handlers by `routes/`, `controllers/`, and `services/`.
   - Serves built frontend assets from `client/dist`.
   - Falls back to `index.html` for non-API routes to support SPA routing.
 - **PostgreSQL**
@@ -30,6 +31,10 @@ At runtime, the browser loads static assets from the server and calls API routes
 4. Express route handlers validate input, execute business logic, and optionally query PostgreSQL.
 5. Server returns JSON response.
 6. React updates UI state.
+
+Example server path in this template:
+
+- `GET /api/health` -> `routes/api.ts` -> `controllers/health-controller.ts` -> `services/health-service.ts` -> `db/pool.ts`
 
 ## Error Handling
 
