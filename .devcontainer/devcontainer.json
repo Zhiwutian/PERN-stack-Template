@@ -2,6 +2,11 @@
   "workspaceFolder": "/workspace",
   "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
   "image": "learningfuze/lfz-code",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "22"
+    }
+  },
   "mounts": [
     "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",
     "source=${containerWorkspaceFolderBasename}-home_dev,target=/home/dev,type=volume",
@@ -13,7 +18,7 @@
       "extensions": ["learningfuze.lfz-pack"]
     }
   },
-  "postCreateCommand": "[ ! -f package-lock.json ] || npm ci; sudo chown -R dev:dev ~/.ssh && chmod 700 ~/.ssh && chmod 600 ~/.ssh/* && chmod 644 ~/.ssh/*.pub",
+  "postCreateCommand": "corepack enable && pnpm install --frozen-lockfile; sudo chown -R dev:dev ~/.ssh && chmod 700 ~/.ssh && chmod 600 ~/.ssh/* && chmod 644 ~/.ssh/*.pub",
   "otherPortsAttributes": {
     "onAutoForward": "silent"
   },
