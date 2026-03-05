@@ -21,7 +21,7 @@ At runtime, the browser loads static assets from the server and calls API routes
   - Falls back to `index.html` for non-API routes to support SPA routing.
 - **PostgreSQL**
   - Stores relational data.
-  - Accessed through `pg` connection pool in the server process.
+  - Accessed through Drizzle ORM on top of the `pg` pool.
 
 ## Request Flow
 
@@ -32,9 +32,10 @@ At runtime, the browser loads static assets from the server and calls API routes
 5. Server returns JSON response.
 6. React updates UI state.
 
-Example server path in this template:
+Example server paths in this template:
 
-- `GET /api/health` -> `routes/api.ts` -> `controllers/health-controller.ts` -> `services/health-service.ts` -> `db/pool.ts`
+- `GET /api/health` -> `routes/api.ts` -> `controllers/health-controller.ts` -> `services/health-service.ts` -> `db/drizzle.ts`
+- `GET /api/todos` -> `routes/api.ts` -> `controllers/todo-controller.ts` -> `services/todo-service.ts` -> `db/drizzle.ts` -> `db/schema.ts`
 
 ## Error Handling
 
@@ -45,9 +46,16 @@ Example server path in this template:
 ## Environment and Configuration
 
 - Devcontainer sets Node 22 and mounts project files to `/workspace`.
+- `.nvmrc` and `package.json` engines pin local runtime expectations.
 - Server env values are managed in `server/.env`.
 - `DATABASE_URL` controls DB connectivity.
 - `TOKEN_SECRET` is required for auth middleware.
+- Environment variables are validated at startup in `server/config/env.ts`.
+
+## Logging
+
+- Application logs use structured JSON logging via `pino`.
+- HTTP request logging is handled by `pino-http` middleware with request IDs (`x-request-id`).
 
 ## Build and Deploy Shape
 

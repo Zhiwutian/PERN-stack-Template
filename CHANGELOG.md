@@ -27,6 +27,19 @@ The format is inspired by Keep a Changelog and uses semantic-style version secti
 - Added docs-policy CI gate requiring docs updates when application/config files change.
 - Added pnpm workspace file: `pnpm-workspace.yaml`.
 - Added pnpm lockfile: `pnpm-lock.yaml`.
+- Added full test scaffolding with Vitest across frontend and backend.
+- Added frontend unit test setup (`client/src/test/setup.ts`) and sample component test (`client/src/App.test.tsx`).
+- Added MSW-based frontend API mock pattern (`client/src/test/handlers.ts`, `client/src/test/server.ts`).
+- Added backend sample tests:
+  - `server/services/health-service.test.ts` (service unit tests with mocked db layer)
+  - `server/routes/api.test.ts` (API route tests via Supertest)
+- Added `pnpm run test:changed` for fast local feedback by running only tests related to changed files.
+- Added runtime pinning with `.nvmrc` and `engines` in root `package.json`.
+- Added server environment validation module (`server/config/env.ts`) using `zod`.
+- Added structured logging via `pino` and request logging via `pino-http`.
+- Added Drizzle ORM + Drizzle Kit integration with schema/migration scaffolding.
+- Added example Drizzle-backed CRUD endpoints for todos (`/api/todos`).
+- Added idempotent database seed flow (`pnpm run db:seed`) and starter todo data.
 
 ### Changed
 
@@ -55,6 +68,8 @@ The format is inspired by Keep a Changelog and uses semantic-style version secti
 - Updated Express fallback route for Express 5 compatibility:
   - from `*` to `/{*path}`.
 - Updated README to match current stack, setup, CI, docs-policy, and pnpm workflows.
+- Updated CI to run tests (`pnpm run test`) alongside lint, typecheck, and build.
+- Added minimum coverage thresholds in Vitest configs for frontend and backend.
 
 ### Fixed
 

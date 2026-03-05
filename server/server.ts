@@ -1,7 +1,8 @@
-import 'dotenv/config';
+import { env } from './config/env.js';
 import { createApp } from './app.js';
+import { logger } from './lib/logger.js';
 
 const app = createApp();
-app.listen(process.env.PORT, () => {
-  console.log('Listening on port', process.env.PORT);
+app.listen(env.PORT, () => {
+  logger.info({ port: env.PORT }, 'Listening on port');
 });

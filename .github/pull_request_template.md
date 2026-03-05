@@ -7,6 +7,7 @@
 
 - [ ] `pnpm run lint`
 - [ ] `pnpm run tsc`
+- [ ] `pnpm run test`
 - [ ] `pnpm run build`
 - [ ] Manual smoke test performed (if applicable)
 

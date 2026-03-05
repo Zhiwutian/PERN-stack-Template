@@ -9,6 +9,8 @@ A full stack TypeScript template with React, Express, and PostgreSQL.
 - React 19 + Vite 7 (`client`)
 - Express 5 + PostgreSQL (`server`)
 - TypeScript, ESLint, Prettier, Husky, lint-staged
+- Vitest + Testing Library + Supertest for testing
+- Zod env validation + Pino structured logging (`server`)
 
 ## Getting Started
 
@@ -30,6 +32,7 @@ A full stack TypeScript template with React, Express, and PostgreSQL.
 3. Run `Dev Containers: Rebuild and Reopen in Container`.
 
 This template bind-mounts your local folder to `/workspace`, so files persist across rebuilds.
+Outside devcontainers, this repo also includes `.nvmrc` and engine constraints in `package.json`.
 
 ### 3) Install and configure env
 
@@ -58,6 +61,13 @@ Then run:
 pnpm run db:import
 ```
 
+If you are using Drizzle migrations instead of SQL import:
+
+```sh
+pnpm run db:migrate
+pnpm run db:seed
+```
+
 ### 5) Start local development
 
 ```sh
@@ -66,14 +76,30 @@ pnpm run dev
 
 Open the app and confirm the client can hit `/api/hello`.
 
+## Example API Endpoints
+
+- `GET /api/hello` - basic connectivity check
+- `GET /api/health` - API + database health report
+- `GET /api/todos` - list todos (Drizzle-backed)
+- `POST /api/todos` - create todo with `{ "task": "..." }`
+- `PATCH /api/todos/:todoId` - update completion with `{ "isCompleted": true|false }`
+- `DELETE /api/todos/:todoId` - remove todo
+
 ## Scripts
 
 - `pnpm run dev` - runs both client and server watchers
 - `pnpm run lint` - lints client and server
 - `pnpm run tsc` - type checks client and server
+- `pnpm run test` - runs frontend and backend unit/integration tests
+- `pnpm run test:coverage` - runs test coverage reports for client and server
+- `pnpm run test:changed` - runs related tests for changed files (fast local PR feedback)
 - `pnpm run build` - builds the client for production
 - `pnpm run start` - starts production server
 - `pnpm run db:import` - resets/imports schema and seed data
+- `pnpm run db:generate` - generates Drizzle SQL migrations from schema
+- `pnpm run db:migrate` - applies Drizzle migrations
+- `pnpm run db:seed` - inserts starter data if tables are empty
+- `pnpm run db:studio` - opens Drizzle Studio
 - `pnpm run psql` - opens `psql` using `DATABASE_URL`
 - `pnpm run deploy` - pushes `main` to `pub` for deployment workflow
 
@@ -83,6 +109,7 @@ Open the app and confirm the client can hit `/api/hello`.
   - `docs-policy` (requires docs updates when app/config files change)
   - `lint`
   - `tsc`
+  - `test`
   - `build`
 - Deployment runs from `/.github/workflows/main.yml` on pushes to `pub`.
 
