@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
-import { env } from '../config/env.js';
+import { env } from '@server/config/env.js';
 import { ClientError } from './client-error.js';
 
 const secret = env.TOKEN_SECRET;

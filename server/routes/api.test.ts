@@ -9,7 +9,7 @@ describe('api routes', () => {
 
   beforeAll(async () => {
     process.env.TOKEN_SECRET = process.env.TOKEN_SECRET ?? 'test-token-secret';
-    const { createApp } = await import('../app.js');
+    const { createApp } = await import('@server/app.js');
     app = createApp();
   });
 
@@ -23,22 +23,37 @@ describe('api routes', () => {
 
   it('returns hello message from /api/hello', async () => {
     const res = await request(app).get('/api/hello').expect(200);
-    expect(res.body).toEqual({ message: 'Hello, World!' });
+    expect(res.body.data).toEqual({ message: 'Hello, World!' });
+    expect(res.body.meta).toEqual(
+      expect.objectContaining({ requestId: expect.any(String) }),
+    );
   });
 
   it('returns not_configured from /api/health when DATABASE_URL is missing', async () => {
     delete process.env.DATABASE_URL;
 
     const res = await request(app).get('/api/health').expect(200);
-    expect(res.body.api).toBe('ok');
-    expect(res.body.database).toBe('not_configured');
-    expect(typeof res.body.checkedAt).toBe('string');
+    expect(res.body.data.api).toBe('ok');
+    expect(res.body.data.database).toBe('not_configured');
+    expect(typeof res.body.data.checkedAt).toBe('string');
+  });
+
+  it('returns 503 from /api/ready when DATABASE_URL is missing', async () => {
+    delete process.env.DATABASE_URL;
+
+    const res = await request(app).get('/api/ready').expect(503);
+    expect(res.body.data.database).toBe('not_configured');
   });
 
   it('returns 503 from /api/todos when DATABASE_URL is missing', async () => {
     delete process.env.DATABASE_URL;
 
     const res = await request(app).get('/api/todos').expect(503);
-    expect(res.body.error).toContain('database is not configured');
+    expect(res.body.error).toEqual(
+      expect.objectContaining({
+        code: 'client_error',
+        message: expect.stringContaining('database is not configured'),
+      }),
+    );
   });
 });

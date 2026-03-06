@@ -6,8 +6,12 @@ A full stack TypeScript template with React, Express, and PostgreSQL.
 
 - Node.js 22 (devcontainer-managed)
 - pnpm 10 (via Corepack)
-- React 19 + Vite 7 (`client`)
+- React 19 + Vite 7 + Tailwind CSS 4 (`client`)
+- React Router (`client` route-level pages)
+- React Hook Form + Zod (`client` forms)
+- React Context + reducer (`client` global UI state)
 - Express 5 + PostgreSQL (`server`)
+- Helmet + CORS + rate limiting (`server` security basics)
 - TypeScript, ESLint, Prettier, Husky, lint-staged
 - Vitest + Testing Library + Supertest for testing
 - Zod env validation + Pino structured logging (`server`)
@@ -46,6 +50,8 @@ Outside devcontainers, this repo also includes `.nvmrc` and engine constraints i
 2. Configure environment:
    - Update `server/.env` with your database name in `DATABASE_URL`.
    - Set `TOKEN_SECRET` in `server/.env`.
+   - Set `CORS_ORIGIN` to your allowed frontend origin(s) (comma-separated exact origins, for example `http://localhost:5173,http://localhost:4173`).
+   - Tune `RATE_LIMIT_WINDOW_MS`, `RATE_LIMIT_MAX` (read), and `RATE_LIMIT_WRITE_MAX` (mutations) as needed.
    - Mirror non-secret env updates in `server/.env.example`.
 
 ### 4) Create your database
@@ -70,6 +76,12 @@ pnpm run db:seed
 
 ### 5) Start local development
 
+Make sure PostgreSQL is running before starting the app:
+
+```sh
+sudo service postgresql start
+```
+
 ```sh
 pnpm run dev
 ```
@@ -78,8 +90,15 @@ Open the app and confirm the client can hit `/api/hello`.
 
 ## Example API Endpoints
 
+Responses use an API envelope:
+
+- Success: `{ "data": ..., "meta": { "requestId": "..." } }`
+- Error: `{ "error": { "code": "...", "message": "..." }, "meta": { "requestId": "..." } }`
+- Exception: `DELETE /api/todos/:todoId` returns `204 No Content` on success (no response body).
+
 - `GET /api/hello` - basic connectivity check
 - `GET /api/health` - API + database health report
+- `GET /api/ready` - readiness check (returns `503` if DB is unavailable/not configured)
 - `GET /api/todos` - list todos (Drizzle-backed)
 - `POST /api/todos` - create todo with `{ "task": "..." }`
 - `PATCH /api/todos/:todoId` - update completion with `{ "isCompleted": true|false }`
@@ -88,6 +107,8 @@ Open the app and confirm the client can hit `/api/hello`.
 ## Scripts
 
 - `pnpm run dev` - runs both client and server watchers
+- `pnpm run dev:clean` - stops stale listeners on dev ports (`5173`, `8080`)
+- `pnpm run dev:fresh` - cleans stale listeners, then starts dev watchers
 - `pnpm run lint` - lints client and server
 - `pnpm run tsc` - type checks client and server
 - `pnpm run test` - runs frontend and backend unit/integration tests
@@ -107,6 +128,7 @@ Open the app and confirm the client can hit `/api/hello`.
 
 - Pull requests run CI checks in `/.github/workflows/ci.yml`:
   - `docs-policy` (requires docs updates when app/config files change)
+  - `db-migration-policy` (requires migration updates when DB schema files change)
   - `lint`
   - `tsc`
   - `test`

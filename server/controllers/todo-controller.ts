@@ -1,11 +1,12 @@
 import { NextFunction, Request, Response } from 'express';
 import { z } from 'zod';
+import { sendSuccess } from '@server/lib/http-response.js';
 import {
   createTodo,
   readTodos,
   removeTodo,
   updateTodo,
-} from '../services/todo-service.js';
+} from '@server/services/todo-service.js';
 
 const todoIdParamsSchema = z.object({
   todoId: z.coerce.number().int().positive(),
@@ -27,7 +28,7 @@ export async function getTodos(
 ): Promise<void> {
   try {
     const allTodos = await readTodos();
-    res.json(allTodos);
+    sendSuccess(res, allTodos);
   } catch (err) {
     next(err);
   }
@@ -42,7 +43,7 @@ export async function postTodo(
   try {
     const body = createTodoBodySchema.parse(req.body);
     const createdTodo = await createTodo(body.task);
-    res.status(201).json(createdTodo);
+    sendSuccess(res, createdTodo, 201);
   } catch (err) {
     next(err);
   }
@@ -58,7 +59,7 @@ export async function patchTodo(
     const params = todoIdParamsSchema.parse(req.params);
     const body = updateTodoBodySchema.parse(req.body);
     const updatedTodo = await updateTodo(params.todoId, body.isCompleted);
-    res.json(updatedTodo);
+    sendSuccess(res, updatedTodo);
   } catch (err) {
     next(err);
   }

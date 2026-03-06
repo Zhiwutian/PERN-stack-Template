@@ -1,8 +1,8 @@
 import { count } from 'drizzle-orm';
-import { env } from '../config/env.js';
-import { getDrizzleDb } from '../db/drizzle.js';
-import { todos } from '../db/schema.js';
-import { logger } from '../lib/logger.js';
+import { env } from '@server/config/env.js';
+import { getDrizzleDb } from '@server/db/drizzle.js';
+import { todos } from '@server/db/schema.js';
+import { logger } from '@server/lib/logger.js';
 
 /**
  * Insert starter todo rows if and only if the table is currently empty.

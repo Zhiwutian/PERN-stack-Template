@@ -1,7 +1,7 @@
 import { desc, eq, sql } from 'drizzle-orm';
-import { DbClient, getDrizzleDb } from '../db/drizzle.js';
-import { todos } from '../db/schema.js';
-import { ClientError } from '../lib/client-error.js';
+import { DbClient, getDrizzleDb } from '@server/db/drizzle.js';
+import { todos } from '@server/db/schema.js';
+import { ClientError } from '@server/lib/client-error.js';
 
 export type TodoRecord = {
   todoId: number;
