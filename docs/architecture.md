@@ -4,7 +4,7 @@
 
 This template is a two-tier web application:
 
-- Frontend: React + Vite in `client`
+- Frontend: React + Vite + Tailwind CSS in `client`
 - Backend: Express + PostgreSQL in `server`
 
 At runtime, the browser loads static assets from the server and calls API routes under `/api/*`.
@@ -13,10 +13,14 @@ At runtime, the browser loads static assets from the server and calls API routes
 
 - **Browser Client**
   - Executes React UI.
+  - Uses React Router for route-level pages (`/`, `/about`).
+  - Uses `react-hook-form` + `zod` for client-side form handling/validation.
+  - Uses Context + reducer (`AppStateProvider`) for lean global UI state.
   - Calls backend endpoints (for example `/api/hello`).
 - **Express Server**
   - Serves API routes.
   - Organizes handlers by `routes/`, `controllers/`, and `services/`.
+  - Applies baseline security middleware (`helmet`, controlled `cors`, API rate limiting).
   - Serves built frontend assets from `client/dist`.
   - Falls back to `index.html` for non-API routes to support SPA routing.
 - **PostgreSQL**
@@ -35,6 +39,7 @@ At runtime, the browser loads static assets from the server and calls API routes
 Example server paths in this template:
 
 - `GET /api/health` -> `routes/api.ts` -> `controllers/health-controller.ts` -> `services/health-service.ts` -> `db/drizzle.ts`
+- `GET /api/ready` -> `routes/api.ts` -> `controllers/health-controller.ts` -> `services/health-service.ts` -> `db/drizzle.ts`
 - `GET /api/todos` -> `routes/api.ts` -> `controllers/todo-controller.ts` -> `services/todo-service.ts` -> `db/drizzle.ts` -> `db/schema.ts`
 
 ## Error Handling
@@ -42,6 +47,23 @@ Example server paths in this template:
 - Server uses centralized error middleware (`server/lib/error-middleware.ts`).
 - `ClientError` is used for expected HTTP-level errors.
 - JWT auth failures are normalized to `401` responses.
+- API responses are normalized to envelope shape (`data`/`error` + `meta.requestId`).
+- Delete endpoints may intentionally return `204 No Content` for successful deletions.
+- Envelope and error code contracts are shared across client/server via `shared/api-contracts.ts`.
+
+## Reliability Endpoints
+
+- `/api/health` is a liveness-style endpoint and returns `200` when the app is running.
+- `/api/ready` is a stricter readiness endpoint and returns `503` when database dependencies are not ready.
+
+## Frontend State Model
+
+- **Local component state (`useState`)**
+  - For short-lived view state owned by one component.
+- **Context + reducer (global UI state)**
+  - For app-level UI state shared by multiple components (for example, todo list filters).
+- **Server state**
+  - Data loaded from `/api/*` remains request-driven through feature API modules and hooks (for example, `todo-api.ts` + `useTodos`).
 
 ## Environment and Configuration
 

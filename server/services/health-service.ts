@@ -1,6 +1,6 @@
 import { sql } from 'drizzle-orm';
-import { getDrizzleDb } from '../db/drizzle.js';
-import { logger } from '../lib/logger.js';
+import { getDrizzleDb } from '@server/db/drizzle.js';
+import { logger } from '@server/lib/logger.js';
 
 export type HealthReport = {
   api: 'ok';

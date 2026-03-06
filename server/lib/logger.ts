@@ -1,7 +1,7 @@
 import pino from 'pino';
 import pinoHttp from 'pino-http';
 import { randomUUID } from 'node:crypto';
-import { env } from '../config/env.js';
+import { env } from '@server/config/env.js';
 
 /**
  * Shared application logger.

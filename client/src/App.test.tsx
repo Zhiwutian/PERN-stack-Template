@@ -1,11 +1,26 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { ToastProvider } from '@/components/app/ToastProvider';
 import { describe, expect, it } from 'vitest';
 import App from './App';
+import { AppStateProvider } from '@/state';
+import { MemoryRouter } from 'react-router-dom';
+
+function renderApp(initialEntries: string[] = ['/']) {
+  return render(
+    <MemoryRouter initialEntries={initialEntries}>
+      <ToastProvider>
+        <AppStateProvider>
+          <App />
+        </AppStateProvider>
+      </ToastProvider>
+    </MemoryRouter>,
+  );
+}
 
 describe('App', () => {
   it('renders server message and initial todos', async () => {
-    render(<App />);
+    renderApp();
 
     expect(
       await screen.findByRole('heading', { name: 'Todo Starter' }),
@@ -20,7 +35,7 @@ describe('App', () => {
 
   it('creates, toggles, and deletes a todo', async () => {
     const user = userEvent.setup();
-    render(<App />);
+    renderApp();
 
     const taskInput = await screen.findByLabelText('New todo task');
     await user.type(taskInput, 'Build todo feature');
@@ -34,5 +49,13 @@ describe('App', () => {
 
     await user.click(screen.getAllByRole('button', { name: 'Delete' })[0]);
     expect(screen.queryByText('Build todo feature')).not.toBeInTheDocument();
+  });
+
+  it('renders about page route', async () => {
+    renderApp(['/about']);
+
+    expect(
+      await screen.findByRole('heading', { name: 'About This Starter' }),
+    ).toBeInTheDocument();
   });
 });

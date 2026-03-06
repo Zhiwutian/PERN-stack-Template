@@ -1,8 +1,8 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { getDrizzleDb } from '../db/drizzle.js';
+import { getDrizzleDb } from '@server/db/drizzle.js';
 import { readTodos } from './todo-service.js';
 
-vi.mock('../db/drizzle.js', () => ({
+vi.mock('@server/db/drizzle.js', () => ({
   getDrizzleDb: vi.fn(),
 }));
 

@@ -69,3 +69,26 @@ Use comments to improve maintainability for both humans and AI tools, not to res
   - do not explain basic language syntax
   - do not duplicate variable names line-by-line
 - If code changes alter behavior, update related comments in the same PR.
+
+## Tailwind UI Standards
+
+- Prefer Tailwind utility classes for component-level styling in `client/src`.
+- Keep shared/global styles minimal in `client/src/index.css`.
+- If class lists become hard to scan, extract reusable UI components in `client/src/components/ui` instead of adding custom CSS files.
+- Use a consistent scale for spacing/colors/typography to keep the UI cohesive across features.
+- Prefer `@/` imports (for example, `@/components/ui`, `@/lib`) instead of deep relative paths.
+
+## Import Alias Standards
+
+- In client code, prefer `@/` imports for `client/src/*` modules.
+- In server code, prefer `@server/` imports for `server/*` modules.
+- Use `@shared/` imports for contracts shared between client and server.
+- Keep same-folder imports relative (for example, `./logger.js`) when that is clearer.
+
+## Frontend State and Forms Guidance
+
+- Use `react-hook-form` + `zod` for form validation and submit handling.
+- Keep feature form schemas close to feature code (for example, `client/src/features/todos/`).
+- Use local `useState` for component-owned state that is not shared.
+- Use Context + reducer for lean global UI state used across multiple components.
+- Keep API-backed data request-driven in feature components/services unless a dedicated server-state library is introduced.
