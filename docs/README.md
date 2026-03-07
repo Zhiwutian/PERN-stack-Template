@@ -14,6 +14,9 @@ This folder contains maintainable project documentation for application structur
 - `development-workflow.md`
   - Local setup and daily development loop
   - CI and deployment lifecycle
+- `app-startup-walkthrough.md`
+  - Step-by-step startup timeline from `pnpm run dev` to first render/API calls
+  - Server bootstrap order, route handling path, and error flow
 
 ## Documentation Maintenance Rules
 

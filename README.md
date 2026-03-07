@@ -143,6 +143,7 @@ Long-form project documentation is in `/docs`:
 - `docs/architecture.md` - system architecture and request/data flow
 - `docs/project-structure.md` - folder-by-folder ownership and purpose
 - `docs/development-workflow.md` - local workflow, CI, and deployment process
+- `docs/app-startup-walkthrough.md` - startup timeline from dev command to first render/API calls
 
 ## Documentation Quality Gates
 
